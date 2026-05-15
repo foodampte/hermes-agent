@@ -200,7 +200,7 @@ export const stripInlineMarkup = (v: string) =>
     .replace(/(?<!\$)\$([^\s$](?:[^$\n]*?[^\s$])?)\$(?!\$)/g, '$1')
     .replace(/\\\(([^\n]+?)\\\)/g, '$1')
 
-const renderTable = (k: number, rows: string[][], t: Theme) => {
+const renderTable = (k: number, rows: string[][], t: Theme, cols?: number) => {
   // Column widths in *display cells*, not UTF-16 code units.  CJK
   // glyphs and most emoji render as two cells but `String#length`
   // counts them as one, which collapses Chinese / Japanese / Korean
@@ -395,10 +395,10 @@ const cacheSet = (b: Map<string, ReactNode[]>, key: string, v: ReactNode[]) => {
   }
 }
 
-function MdImpl({ compact, t, text }: MdProps) {
+function MdImpl({ cols, compact, t, text }: MdProps) {
   const nodes = useMemo(() => {
     const bucket = cacheBucket(t)
-    const cacheKey = `${compact ? '1' : '0'}|${text}`
+    const cacheKey = `${compact ? '1' : '0'}|${cols ?? ''}|${text}`
     const cached = cacheGet(bucket, cacheKey)
 
     if (cached) {
@@ -785,7 +785,7 @@ function MdImpl({ compact, t, text }: MdProps) {
           rows.push(splitRow(lines[i]!))
         }
 
-        nodes.push(renderTable(key, rows, t))
+        nodes.push(renderTable(key, rows, t, cols))
 
         continue
       }
@@ -838,7 +838,7 @@ function MdImpl({ compact, t, text }: MdProps) {
         }
 
         if (rows.length) {
-          nodes.push(renderTable(key, rows, t))
+          nodes.push(renderTable(key, rows, t, cols))
         }
 
         continue
@@ -852,7 +852,7 @@ function MdImpl({ compact, t, text }: MdProps) {
     cacheSet(bucket, cacheKey, nodes)
 
     return nodes
-  }, [compact, t, text])
+  }, [cols, compact, t, text])
 
   return <Box flexDirection="column">{nodes}</Box>
 }
@@ -862,6 +862,7 @@ export const Md = memo(MdImpl)
 type Kind = 'blank' | 'code' | 'heading' | 'list' | 'paragraph' | 'quote' | 'rule' | 'table' | null
 
 interface MdProps {
+  cols?: number
   compact?: boolean
   t: Theme
   text: string
