@@ -61,11 +61,13 @@ Key settings:
 
 | Variable | Description | Default |
 |---|---|---|
-| `OPENAI_API_BASE` | API base URL | `https://api.openai.com/v1` |
-| `OPENAI_API_KEY` | API key | *(required)* |
+| `OPENAI_API_BASE` | API base URL | `http://localhost:11434/v1` |
+| `OPENAI_API_KEY` | API key | `ollama` |
 | `MODEL_NAME` | Model to use | `NousResearch/Hermes-3-Llama-3.1-70B` |
 | `MAX_ITERATIONS` | Max agent loop iterations | `5` |
 | `TEMPERATURE` | Sampling temperature | `0.2` |
+
+> **Note:** Defaults above reflect my local Ollama setup. If you're using OpenAI directly, set `OPENAI_API_BASE=https://api.openai.com/v1` and provide a real `OPENAI_API_KEY`.
 
 ## Architecture
 
