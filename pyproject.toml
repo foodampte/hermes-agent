@@ -1,3 +1,4 @@
+```
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.backends.legacy:build"
@@ -90,8 +91,10 @@ exclude = ["tests/"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "--cov=hermes_agent --cov-report=term-missing --cov-report=xml"
+# Removed --cov-report=xml since I'm just running tests locally and don't need the XML report
+addopts = "--cov=hermes_agent --cov-report=term-missing"
 
 [tool.coverage.run]
 source = ["src/hermes_agent"]
 omit = ["tests/*", "*/__init__.py"]
+```
