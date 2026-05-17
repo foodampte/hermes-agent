@@ -1,4 +1,3 @@
-```
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.backends.legacy:build"
@@ -84,7 +83,8 @@ known-first-party = ["hermes_agent"]
 
 [tool.mypy]
 python_version = "3.10"
-strict = true
+# Relaxed from strict=true — too noisy for personal exploration, re-enable before any PRs
+strict = false
 ignore_missing_imports = true
 exclude = ["tests/"]
 
@@ -97,4 +97,3 @@ addopts = "--cov=hermes_agent --cov-report=term-missing"
 [tool.coverage.run]
 source = ["src/hermes_agent"]
 omit = ["tests/*", "*/__init__.py"]
-```
